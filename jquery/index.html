@@ -1,0 +1,279 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>CodePlayer</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="jquery-ui.js"></script>
+
+    <style>
+        body{
+            margin: 0px;
+        }
+        
+        #topBar{
+            width:1366px;
+            height:40px;
+            background-color: lightgrey;
+            padding-bottom:2px;
+        }
+        
+        #title{
+            float: left;
+            padding:10px 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+            font-family:arial;
+            color:grey;
+        }
+        
+        #buttonsDiv{
+            float:left;
+            margin-top:9px;
+            margin-left:33%;
+            width:192.5px;
+            background-color: black;
+        }
+        
+        button{
+            margin: -3px;
+            padding:5px 10px;
+            background-color:white;
+            height: 27px;
+            border:0px grey solid;
+            font-size: 0.9em;
+        }
+        
+        #htmlButton{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            background-color:grey;
+        }
+        
+        #cssButton{
+            background-color:grey;
+        }
+        
+        #jsButton{
+            background-color:grey;
+        }
+        
+        #resultButton{
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            background-color:grey;
+        }
+        
+        #runButton{
+            float: right;
+            border-radius:5px;
+            margin: 6.5px;
+            background-color: darkgrey;
+            border-bottom: 2px solid grey;
+            border-right: 2px solid grey;
+            font-size: 0.9em;
+        }
+        
+        #htmlDiv{
+            float:left;
+            width:341px;
+            height: 630.4px;
+            border-right: 1px solid grey;
+            padding: 0px;
+            background-color: azure;
+            display:block;
+        }
+        
+        #cssDiv{
+            float:left;
+            width:341px;
+            height: 630.4px;
+            border-right: 1px solid grey;
+            padding: 0px;
+            background-color: azure;
+            display:block;
+        }
+        
+        #jsDiv{
+            float:left;
+            width:341px;
+            height: 630.4px;
+            border-right: 1px solid grey;
+            padding: 0px;
+            background-color: azure;
+            display:block;
+        }
+        
+        #resultDiv{
+            float:right ;
+            width:339px;
+            height: 630.4px;
+            padding: 0px;
+            display:block;
+        }
+        
+        #clear{
+            clear: both;
+        }
+        
+        textarea{
+            float:left;
+            height:98%;  
+            border-top-width: 0px;
+            width:100%;
+            padding-top: 15px;
+            padding-left: 10px;
+            font-size:1.1em;
+        }
+        
+        .displayButton{
+            float:right;
+            position:absolute;
+            width: 53px;
+            height:30px;
+            margin-left:-80px;
+            margin-top:10px;
+            border: 2px grey solid;
+            padding:3px;
+            border-radius: 5px;
+        }
+        
+        #resultBt{
+            float:right;
+            position: absolute;
+            width: 53px;
+            height:30px;
+            top: 57px;
+            right:15px;
+            border: 2px grey solid;
+            padding:3px;
+            border-radius: 5px;
+        }
+        
+    </style>
+    
+</head>
+    
+<body>
+    <div id="topBar">
+        
+        <div id="title">CodePlayer</div>
+        
+        <div id="buttonsDiv">
+            
+            <button id="htmlButton">HTML</button>
+            <button id="cssButton">CSS</button>
+            <button id="jsButton">JS</button>
+            <button id="resultButton">Result</button>
+
+        </div>
+
+        <button id="runButton">Run</button>
+    
+    </div>
+    
+    <div id="clear"></div>
+    
+    <div id="content">
+        
+        <div id="htmlDiv">
+            <textarea id="htmlInput"></textarea>
+            <button class="displayButton">HTML</button>
+        </div>
+        
+        <div id="cssDiv">
+            <textarea id="cssInput"></textarea>
+            <button class="displayButton">CSS</button>
+        </div>
+    
+        <div id="jsDiv">
+            <textarea id="jsInput"></textarea>
+            <button class="displayButton">JS</button>
+        </div>
+
+        <div id="resultDiv">
+            <div id="result"></div>
+            <button id="resultBt">Result</button>
+        </div>
+    
+    </div>
+    
+    <script>
+        $("#htmlButton").click(function() {
+            if($("#htmlDiv").css("display") == "block"){
+                $("#htmlDiv").css("display", "none");
+                $("#htmlButton").css("background-color", "white");
+            }
+            else{
+                $("#htmlDiv").css("display", "block");
+                $("#htmlButton").css("background-color", "grey");
+            }
+            adjustWidth();
+        });
+        
+        $("#cssButton").click(function() {
+            if($("#cssDiv").css("display") == "block"){
+                $("#cssDiv").css("display", "none");
+                $("#cssButton").css("background-color", "white");
+            }
+            else{
+                $("#cssDiv").css("display", "block");
+                $("#cssButton").css("background-color", "grey");
+            }
+            adjustWidth();
+        });
+        
+        $("#jsButton").click(function() {
+            if($("#jsDiv").css("display") == "block"){
+                $("#jsDiv").css("display", "none");
+                $("#jsButton").css("background-color", "white");
+            }
+            else{
+                $("#jsDiv").css("display", "block");
+                $("#jsButton").css("background-color", "grey");
+            }
+            adjustWidth();
+        });
+        
+        function adjustWidth(){
+            var width=1366; var html=0; var css=0; var js=0; var res=0; var count=0;
+            
+            if($("#htmlDiv").css("display") == "block"){
+                count+=1;
+                html = 1;
+            }
+            if($("#cssDiv").css("display") == "block"){
+                count+=1;
+                css = 1;
+            }
+            if($("#jsDiv").css("display") == "block"){
+                count+=1;
+                js = 1;
+            }
+            if($("#resultDiv").css("display") == "block"){
+                count+=1;
+                res = 1;
+            }
+            
+            width = width / count;
+            
+            if(html == 1){
+                $("#htmlDiv").css("width", width - 5 + "px");
+            }
+            if(css == 1){
+                $("#cssDiv").css("width", width - 5 + "px");
+            }
+            if(js == 1){
+                $("#jsDiv").css("width", width - 5 + "px");
+            }
+            if(res == 1){
+                $("#resultDiv").css("width", width - 5 + "px");
+            }
+        }
+    </script>
+</body>
+
+</html>

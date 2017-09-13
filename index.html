@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>JS Reaction Tester</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+        
+        body{
+            font-family: Trebuchet MS, Helvetica, sans-serif;
+        }
+        #result{
+            border:4px solid grey;
+            float: right;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            right:0;
+            display:none;
+        }
+        
+        td {
+            border: 1px dashed black;
+            padding: 3px;
+        }
+        th {
+            border: 1px dashed black;
+            padding: 4px;
+        }
+        
+        #start{
+            width:100%;
+            height:100%;
+            font-size: 200px;
+            font-weight: bold;
+            background-color:azure;
+            color:forestgreen;
+            border: none;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <button id="start">START GAME</button>
+   
+    <table id="result">
+        <tr><th>Attempt No.</th><th>Response Time</th></tr>
+        <tr><td id="attempt">0</td><td id="delay">0s</td></tr>
+    </table>
+    
+    <div id="shape"></div>
+    
+    
+    <script type="text/javascript">
+        var createdTime; var clickedTime; var responseTime; var attempt = 0;
+        
+        document.getElementById("start").onclick= function(){
+            document.getElementById("start").style.display = "none";
+            document.getElementById("result").style.display = "block";
+            shapeGenerator();
+                
+            document.getElementById("shape").onclick= function(){
+                clickedTime = Date.now();
+                
+                responseTime = (clickedTime - createdTime) / 1000;
+                attempt++;
+                
+                document.getElementById("attempt").innerHTML=attempt; 
+                document.getElementById("delay").innerHTML=responseTime + "s";
+                
+                setTimeout(function(){
+                    shapeGenerator();    
+                }, 100);
+            }
+        }
+        
+        function shapeGenerator(){
+                var x = Math.random();
+                var y = Math.random();
+                var k = Math.random();
+            
+                x = x * 350;
+                y = y * 1000;
+            
+                k = k * 100 + 50;
+                k = Math.floor(k);
+                var r = k * 2;
+
+                document.getElementById("shape").style.height = r + "px";
+                document.getElementById("shape").style.width = r + "px";
+                document.getElementById("shape").style.marginTop = x + "px";
+                document.getElementById("shape").style.marginLeft = y + "px";
+                document.getElementById("shape").style.backgroundColor = getRandomColor();
+            
+                if(Math.floor(Math.random() * 2) == 0){
+                    document.getElementById("shape").style.borderRadius = k + "px";
+                }
+                else{
+                    document.getElementById("shape").style.borderRadius = 0 + "px";
+                }
+            
+                createdTime = Date.now();
+        }
+        
+        function getRandomColor(){
+            var letters = "0123456789ABCDEF".split("");
+            var color = "#";
+            
+            for(var i = 0; i < 6; i++){
+                color += letters[Math.round(Math.random() * 15)];
+            }
+            
+            return color;
+        }
+        
+    </script>
+</body>
+
+</html>
